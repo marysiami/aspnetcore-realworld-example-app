@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,6 +73,12 @@ namespace Conduit.Features.Comments
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
+
+                if (ValidateBody(message.Comment.Body))
+                {
+                    comment.IsReported = true;
+                }                
+
                 await _context.Comments.AddAsync(comment, cancellationToken);
 
                 article.Comments.Add(comment);
@@ -79,6 +86,25 @@ namespace Conduit.Features.Comments
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new CommentEnvelope(comment);
+            }
+
+            private bool ValidateBody(string body)
+            {
+                var blackWords = new List<string>() { "KLAWIATURA", "PARAPET", "KOMPUTER", "TEST", "MYSZKA", "TABLICA", "EKRAN", "G£UPI", "BRZYDKI", "PISUAR" };
+
+                var textToValidate = body.Replace(",", String.Empty);
+                textToValidate = textToValidate.Replace(".", String.Empty);
+                var wordsArray = textToValidate.Split(' ');
+
+                foreach (var word in wordsArray)
+                {
+                    if (blackWords.Contains(word.ToUpper()))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
     }
