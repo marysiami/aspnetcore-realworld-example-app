@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -85,11 +86,42 @@ namespace Conduit.Features.Users
                     IsAdmin = message.User.Username == "AdminPB2020"
                 };
 
+                SendMail(person);
+
                 _context.Persons.Add(person);
                 await _context.SaveChangesAsync(cancellationToken);
                 var user = _mapper.Map<Person, User>(person);
                 user.Token = await _jwtTokenGenerator.CreateToken(person.Username);
                 return new UserEnvelope(user);
+            }
+
+            private void SendMail(Person person)
+            {
+                var fromAddress = new MailAddress("conduitmailzio@gmail.com");
+                var toAddress = new MailAddress(person.Email);
+                const string fromPassword = "!@#qweASDzxc";
+                const string subject = "Potwierdzenie konta";
+                string code = Guid.NewGuid().ToString();
+                string body = $"Twój kod do aktywacji konta: {code}";
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                    Timeout = 20000
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                    ConfirmAccountData.ConfirmAccountListData.Add(new ConfirmAccountData.ConfirmAccountDataModel() { Email = person.Email, Code = code });
+                }
             }
         }
     }
