@@ -26,5 +26,11 @@ namespace Conduit.Features.Users
         {
             return await _mediator.Send(command);
         }
+
+        [HttpPut("confirmAccount/{email}/{code}")]
+        public async Task ConfirmAccount(string email, string code)
+        {
+            await _mediator.Send(new ConfirmAccount.Query(email, code));
+        }
     }
 }
