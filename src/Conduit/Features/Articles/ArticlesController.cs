@@ -58,5 +58,24 @@ namespace Conduit.Features.Articles
         {
             await _mediator.Send(new Delete.Command(slug));
         }
+
+        [HttpPut("/reportArtickle/{id}/{flag}")]
+        public async Task<Unit> ReportComment(int id, bool flag)
+        {
+            return await _mediator.Send(new ReportArticle.Query(id, flag));
+        }
+
+        [HttpGet("/reportedArticles")]
+        public async Task<ArticlesEnvelope> GetAllReportedArticles()
+        {
+            return await _mediator.Send(new AllReportedArticles.Query());
+        }
+
+        [HttpDelete("/artickles/{id}")]
+        [Authorize(AuthenticationSchemes = JwtIssuerOptions.Schemes)]
+        public async Task RemoveAt(int id)
+        {
+            await _mediator.Send(new RemoveAt.Command(id));
+        }
     }
 }

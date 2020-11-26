@@ -31,8 +31,9 @@ namespace Conduit.Infrastructure
 
                 _context.CommitTransaction();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                var message = ex.Message;
                 _context.RollbackTransaction();
                 throw;
             }
