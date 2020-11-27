@@ -1,6 +1,6 @@
 ﻿using Conduit.Infrastructure;
 using Conduit.Infrastructure.Errors;
-using FluentValidation;
+using Conduit.Infrastructure.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,27 +12,29 @@ using System.Threading.Tasks;
 
 namespace Conduit.Features.Users
 {
-    public class ConfirmAccount
+    public class ChangePassword
     {
         public class Query : IRequest
         {
-            public Query(string email, string code)
+            public Query(string email, string newPassword)
             {
+                NewPassword = newPassword;
                 Email = email;
-                Code = code;
             }
 
+            public string NewPassword { get; }
             public string Email { get; }
-            public string Code { get; }
         }
 
         public class QueryHandler : IRequestHandler<Query>
         {
             private readonly ConduitContext _context;
+            private readonly IPasswordHasher _passwordHasher;
 
-            public QueryHandler(ConduitContext context)
+            public QueryHandler(ConduitContext context, IPasswordHasher passwordHasher)
             {
                 _context = context;
+                _passwordHasher = passwordHasher;
             }
 
             public async Task<Unit> Handle(Query message, CancellationToken cancellationToken)
@@ -41,23 +43,15 @@ namespace Conduit.Features.Users
 
                 if (person == null)
                 {
-                    throw new RestException(HttpStatusCode.NotFound, new { Article = Constants.NOT_FOUND });
-                }
-
-                var accountFromList = ConfirmAccountData.ConfirmAccountListData
-                    .Where(x => x.Email == message.Email && x.Code == message.Code)
-                    .FirstOrDefault();
-
-                if (accountFromList == null)
-                {
                     throw new RestException(HttpStatusCode.NotFound);
                 }
 
-                person.IsConfirmed = true;
+                var salt = Guid.NewGuid().ToByteArray();
+                person.Hash = _passwordHasher.Hash(message.NewPassword, salt);
+                person.Salt = salt;
 
                 _context.Persons.Update(person);
                 await _context.SaveChangesAsync(cancellationToken);
-                ConfirmAccountData.ConfirmAccountListData.Remove(accountFromList);
                 return Unit.Value;
             }
         }

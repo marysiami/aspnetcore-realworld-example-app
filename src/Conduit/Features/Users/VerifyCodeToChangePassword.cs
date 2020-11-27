@@ -1,6 +1,5 @@
 ﻿using Conduit.Infrastructure;
 using Conduit.Infrastructure.Errors;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Conduit.Features.Users
 {
-    public class ConfirmAccount
+    public class VerifyCodeToChangePassword
     {
         public class Query : IRequest
         {
@@ -41,10 +40,10 @@ namespace Conduit.Features.Users
 
                 if (person == null)
                 {
-                    throw new RestException(HttpStatusCode.NotFound, new { Article = Constants.NOT_FOUND });
+                    throw new RestException(HttpStatusCode.NotFound);
                 }
 
-                var accountFromList = ConfirmAccountData.ConfirmAccountListData
+                var accountFromList = RemindPasswordData.RemindPasswordListData
                     .Where(x => x.Email == message.Email && x.Code == message.Code)
                     .FirstOrDefault();
 
@@ -53,11 +52,7 @@ namespace Conduit.Features.Users
                     throw new RestException(HttpStatusCode.NotFound);
                 }
 
-                person.IsConfirmed = true;
-
-                _context.Persons.Update(person);
-                await _context.SaveChangesAsync(cancellationToken);
-                ConfirmAccountData.ConfirmAccountListData.Remove(accountFromList);
+                RemindPasswordData.RemindPasswordListData.Remove(accountFromList);
                 return Unit.Value;
             }
         }
