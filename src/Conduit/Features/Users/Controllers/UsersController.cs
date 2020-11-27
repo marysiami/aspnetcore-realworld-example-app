@@ -32,5 +32,23 @@ namespace Conduit.Features.Users
         {
             await _mediator.Send(new ConfirmAccount.Query(email, code));
         }
+
+        [HttpGet("remindPassword/{email}")]
+        public async Task RemindPassword(string email)
+        {
+            await _mediator.Send(new RemindPassword.Query(email));
+        }
+
+        [HttpGet("verifyCodeToChangePassword/{email}/{code}")]
+        public async Task VerifyCodeToChangePassword(string email, string code)
+        {
+            await _mediator.Send(new VerifyCodeToChangePassword.Query(email, code));
+        }
+
+        [HttpPut("changePassword/{email}/{newPassword}")]
+        public async Task ChangePassword(string email, string newPassword)
+        {
+            await _mediator.Send(new ChangePassword.Query(email, newPassword));
+        }
     }
 }
