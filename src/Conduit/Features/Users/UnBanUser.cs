@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Conduit.Features.Users
 {
-    public class BanUser
+    public class UnBanUser
     {
         public class Query : IRequest
         {
@@ -43,7 +43,7 @@ namespace Conduit.Features.Users
                     throw new RestException(HttpStatusCode.NotFound);
                 }
 
-                person.IsBanned = true;
+                person.IsBanned = false;
 
                 _context.Persons.Update(person);
 
@@ -59,7 +59,7 @@ namespace Conduit.Features.Users
                 {
                     foreach (var article in articles)
                     {
-                        article.IsBanned = true;
+                        article.IsBanned = false;
 
                         _context.Articles.Update(article);
                     }
@@ -77,7 +77,7 @@ namespace Conduit.Features.Users
                 {
                     foreach (var comment in comments)
                     {
-                        comment.IsBanned = true;
+                        comment.IsBanned = false;
                         _context.Comments.Update(comment);
                     }
                 }
