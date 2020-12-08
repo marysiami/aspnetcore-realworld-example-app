@@ -14,11 +14,7 @@ namespace Conduit.Features.Users
 
         public string Token { get; set; }
 
-
-
-        public int ArticleBan { get; set; } = 0;
-
-        public int CommentBan { get; set; } = 0;
+        public bool IsBanned { get; set; } = false;
     }
 
 

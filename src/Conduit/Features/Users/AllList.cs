@@ -73,7 +73,7 @@ namespace Conduit.Features.Users
 
                 if (message.Ban)
                 {
-                    users = users.Where(x => x.ArticleBan >= 3 || x.CommentBan >= 3).ToList();
+                    //users = users.Where(x => x.ArticleBan >= 3 || x.CommentBan >= 3).ToList();
                 }
 
                 return new UsersEnvelope()

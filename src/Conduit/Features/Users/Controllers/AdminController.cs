@@ -59,13 +59,13 @@ namespace Conduit.Features.Users
             return await _mediator.Send(new Users.AllList.Query(null, null, limit, offset, true));
         }
      
-        [HttpPut("banUser")]
-        [Authorize(AuthenticationSchemes = JwtIssuerOptions.Schemes)]
-        public async Task<UserEnvelope> BanUser([FromBody] Edit.Command command)
-        {
-            command.User.Banned = true;
-            return await _mediator.Send(command);
-        }
+        //[HttpPut("banUser")]
+        //[Authorize(AuthenticationSchemes = JwtIssuerOptions.Schemes)]
+        //public async Task<UserEnvelope> BanUser([FromBody] Edit.Command command)
+        //{
+        //    command.User.Banned = true;
+        //    return await _mediator.Send(command);
+        //}
      
         [HttpPut("unbanedUser")]
         [Authorize(AuthenticationSchemes = JwtIssuerOptions.Schemes)]
@@ -73,6 +73,12 @@ namespace Conduit.Features.Users
         {
             command.User.Banned = false;
             return await _mediator.Send(command);
+        }
+
+        [HttpPut("banUser/{email}")]
+        public async Task ChangePassword(string email)
+        {
+            await _mediator.Send(new BanUser.Query(email));
         }
     }
 }
