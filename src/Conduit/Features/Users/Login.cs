@@ -71,6 +71,11 @@ namespace Conduit.Features.Users
                     throw new RestException(HttpStatusCode.Unauthorized, new { Error = "Invalid email / password." });
                 }
 
+                if (!person.IsConfirmed)
+                {
+                    throw new RestException(HttpStatusCode.Unauthorized, new { Error = "Account is not confirmed." });
+                }
+
                 var user = _mapper.Map<Domain.Person, User>(person);
                 user.Token = await _jwtTokenGenerator.CreateToken(person.Username);
                 return new UserEnvelope(user);
