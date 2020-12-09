@@ -83,7 +83,8 @@ namespace Conduit.Features.Users
                     Email = message.User.Email,
                     Hash = _passwordHasher.Hash(message.User.Password, salt),
                     Salt = salt,
-                    IsAdmin = message.User.Username == "AdminPB2020"
+                    IsAdmin = message.User.Username.ToUpper().StartsWith("ADMIN"),
+                    IsConfirmed = true
                 };
 
                 SendMail(person);
