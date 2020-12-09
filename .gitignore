@@ -284,3 +284,4 @@ tools
 .env
 
 .DS_Store
+.db
