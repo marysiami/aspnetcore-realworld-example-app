@@ -15,6 +15,8 @@ namespace Conduit.Features.Users
         public string Token { get; set; }
 
         public bool IsBanned { get; set; } = false;
+
+        public bool IsAdmin { get; set; } = false;
     }
 
 
