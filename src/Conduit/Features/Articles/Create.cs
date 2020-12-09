@@ -88,6 +88,13 @@ namespace Conduit.Features.Articles
                     Title = message.Article.Title,
                     Slug = message.Article.Title.GenerateSlug()
                 };
+
+                if (ValidateBody(message.Article.Body) || ValidateBody(message.Article.Title))
+                {
+                    article.IsReported = true;
+                }
+
+
                 await _context.Articles.AddAsync(article, cancellationToken);
 
                 await _context.ArticleTags.AddRangeAsync(tags.Select(x => new ArticleTag()
@@ -99,6 +106,25 @@ namespace Conduit.Features.Articles
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new ArticleEnvelope(article);
+            }
+
+            private bool ValidateBody(string body)
+            {
+                var blackWords = new List<string>() { "KLAWIATURA", "PARAPET", "KOMPUTER", "TEST", "MYSZKA", "TABLICA", "EKRAN", "GŁUPI", "BRZYDKI", "PISUAR" };
+
+                var textToValidate = body.Replace(",", String.Empty);
+                textToValidate = textToValidate.Replace(".", String.Empty);
+                var wordsArray = textToValidate.Split(' ');
+
+                foreach (var word in wordsArray)
+                {
+                    if (blackWords.Contains(word.ToUpper()))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
     }

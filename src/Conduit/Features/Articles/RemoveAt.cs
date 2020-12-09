@@ -43,15 +43,15 @@ namespace Conduit.Features.Articles
 
             public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
             {
-                var comment = await _context.Articles.Where(x => x.ArticleId == message.Id).FirstOrDefaultAsync();
+                var article = await _context.Articles.Where(x => x.ArticleId == message.Id).FirstOrDefaultAsync();
 
 
-                if (comment == null)
+                if (article == null)
                 {
                     throw new RestException(HttpStatusCode.NotFound, new { Article = Constants.NOT_FOUND });
                 }
 
-                _context.Articles.Remove(comment);
+                _context.Articles.Remove(article);
                 await _context.SaveChangesAsync(cancellationToken);
                 return Unit.Value;
             }
