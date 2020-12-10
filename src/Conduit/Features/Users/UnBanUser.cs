@@ -51,11 +51,7 @@ namespace Conduit.Features.Users
                     .Where(x => x.Author.Email == message.Email)
                     .ToListAsync();
 
-                if (articles == null || articles.Count == 0)
-                {
-                    return Unit.Value;
-                }
-                else
+                if (articles != null && articles.Count != 0)
                 {
                     foreach (var article in articles)
                     {
@@ -69,11 +65,7 @@ namespace Conduit.Features.Users
                     .Where(x => x.Author.Email == message.Email)
                     .ToListAsync();
 
-                if (comments == null || comments.Count == 0)
-                {
-                    return Unit.Value;
-                }
-                else
+                if (comments != null && comments.Count != 0)
                 {
                     foreach (var comment in comments)
                     {
