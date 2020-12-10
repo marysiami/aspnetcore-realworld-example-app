@@ -21,6 +21,9 @@ namespace Conduit.Infrastructure
         public DbSet<ArticleTag> ArticleTags { get; set; }
         public DbSet<ArticleFavorite> ArticleFavorites { get; set; }
         public DbSet<FollowedPeople> FollowedPeople { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<AnswerAndQuestion> AnswersAndQuestions { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
