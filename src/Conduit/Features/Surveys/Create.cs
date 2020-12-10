@@ -56,13 +56,25 @@ namespace Conduit.Features.Surveys
                     await _context.AnswersAndQuestions.AddAsync(answerAndQuestion);
                 }
 
+                var author = await _context.Persons
+                    .Where(x => x.Email == message.Survey.Author.Email)
+                    .FirstOrDefaultAsync();
+
                 var survey = new Survey()
                 {
-                    Author = message.Survey.Author,
+                    Author = author,
                     Title = message.Survey.Title,
-                    FillingUser = message.Survey.FillingUser,
                     AnswersAndQuestions = message.Survey.AnswersAndQuestions
                 };
+
+                if (message.Survey?.FillingUser != null)
+                {
+                    var fillingUser = await _context.Persons
+                    .Where(x => x.Email == message.Survey.FillingUser.Email)
+                    .FirstOrDefaultAsync();
+
+                    survey.FillingUser = fillingUser;
+                }
 
                 await _context.Surveys.AddAsync(survey, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
