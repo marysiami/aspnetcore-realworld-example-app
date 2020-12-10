@@ -42,14 +42,14 @@ namespace Conduit.Features.Surveys
 
             public async Task<SurveysEnvelope> Handle(Command message, CancellationToken cancellationToken)
             {
-                var surveyExist = await _context.Surveys
-                    .Where(x => x.Author.Email == message.Survey.Author.Email && x.Title == message.Survey.Title)
-                    .FirstOrDefaultAsync();
+                //var surveyExist = await _context.Surveys
+                //    .Where(x => x.Author.Email == message.Survey.Author.Email)
+                //    .FirstOrDefaultAsync();
 
-                if (surveyExist != null)
-                {
-                    throw new RestException(System.Net.HttpStatusCode.Found, new { Error = "Survey exist." });
-                }
+                //if (surveyExist != null)
+                //{
+                //    throw new RestException(System.Net.HttpStatusCode.Found, new { Error = "Survey exist." });
+                //}
 
                 foreach (var answerAndQuestion in message.Survey.AnswersAndQuestions)
                 {
