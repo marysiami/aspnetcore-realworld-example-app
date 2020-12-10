@@ -8,7 +8,6 @@ namespace Conduit.Domain
 {
     public class Article
     {
-        [JsonIgnore]
         public int ArticleId { get; set; }
 
         public string Slug { get; set; }

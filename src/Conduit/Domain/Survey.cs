@@ -9,7 +9,6 @@ namespace Conduit.Domain
 {
     public class Survey
     {
-        [JsonIgnore]
         public int SurveyId { get; set; }
 
         public Person Author { get; set; }
@@ -17,12 +16,6 @@ namespace Conduit.Domain
         public string Title { get; set; }
 
         public List<AnswerAndQuestion> AnswersAndQuestions { get; set; }
-
-        //[NotMapped]
-        //public List<string> questions { get; set; }
-
-        //[NotMapped]
-        //public List<string> answers { get; set; }
 
         public Person FillingUser { get; set; }
     }
