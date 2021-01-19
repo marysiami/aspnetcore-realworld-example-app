@@ -45,9 +45,9 @@ namespace Conduit.Features.Users
                 var fromAddress = new MailAddress("conduitmailzio@gmail.com");
                 var toAddress = new MailAddress(message.Email);
                 const string fromPassword = "!@#qweASDzxc";
-                const string subject = "Zmiana hasła";
+                const string subject = "Potwierdzenie konta";
                 string code = Guid.NewGuid().ToString();
-                string body = $"Link do zmiany hasła : http://localhost:4100/codeToChangePassword/{message.Email}/{code}";
+                string body = $"Twoj link aktywacyjny: http://localhost:4100/activateAccount/{person.Email}/{code}";
 
                 var smtp = new SmtpClient
                 {
