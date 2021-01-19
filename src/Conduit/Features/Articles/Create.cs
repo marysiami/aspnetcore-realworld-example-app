@@ -118,9 +118,12 @@ namespace Conduit.Features.Articles
 
                 foreach (var word in wordsArray)
                 {
-                    if (blackWords.Contains(word.ToUpper()))
+                    foreach (var blackword in blackWords)
                     {
-                        return true;
+                        if (word.ToUpper().Contains(blackword))
+                        {
+                            return true;
+                        }
                     }
                 }
 
