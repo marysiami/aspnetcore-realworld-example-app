@@ -46,7 +46,7 @@ namespace Conduit.Features.Users
                 var toAddress = new MailAddress(message.Email);
                 const string fromPassword = "!@#qweASDzxc";
                 const string subject = "Potwierdzenie konta";
-                var existingCode = RemindPasswordData.RemindPasswordListData.Where(x => x.Email == message.Email).Select(x => x.Code).FirstOrDefault();
+                var existingCode = ConfirmAccountData.ConfirmAccountListData.Where(x => x.Email == message.Email).Select(x => x.Code).FirstOrDefault();
                 string code = string.IsNullOrEmpty(existingCode) ? Guid.NewGuid().ToString() : existingCode;
                 string body = $"Twoj link aktywacyjny: http://localhost:4100/activateAccount/{person.Email}/{code}";
 
@@ -69,7 +69,7 @@ namespace Conduit.Features.Users
 
                     if (string.IsNullOrEmpty(existingCode))
                     {
-                        RemindPasswordData.RemindPasswordListData.Add(new RemindPasswordData.RemindPasswordDataModel() { Email = message.Email, Code = code });
+                        ConfirmAccountData.ConfirmAccountListData.Add(new ConfirmAccountData.ConfirmAccountDataModel() { Email = message.Email, Code = code });
                     }
                 }
 
