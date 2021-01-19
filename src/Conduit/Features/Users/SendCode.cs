@@ -66,7 +66,11 @@ namespace Conduit.Features.Users
                 })
                 {
                     smtp.Send(emailMessage);
-                    RemindPasswordData.RemindPasswordListData.Add(new RemindPasswordData.RemindPasswordDataModel() { Email = message.Email, Code = code });
+
+                    if (string.IsNullOrEmpty(existingCode))
+                    {
+                        RemindPasswordData.RemindPasswordListData.Add(new RemindPasswordData.RemindPasswordDataModel() { Email = message.Email, Code = code });
+                    }
                 }
 
                 return Unit.Value;
