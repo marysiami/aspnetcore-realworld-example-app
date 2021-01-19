@@ -50,5 +50,11 @@ namespace Conduit.Features.Users
         {
             await _mediator.Send(new ChangePassword.Query(email, newPassword));
         }
+
+        [HttpGet("sendCode/{email}")]
+        public async Task SendCode(string email)
+        {
+            await _mediator.Send(new SendCode.Query(email));
+        }
     }
 }
