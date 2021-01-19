@@ -46,7 +46,8 @@ namespace Conduit.Features.Users
                 var toAddress = new MailAddress(message.Email);
                 const string fromPassword = "!@#qweASDzxc";
                 const string subject = "Potwierdzenie konta";
-                string code = Guid.NewGuid().ToString();
+                var existingCode = RemindPasswordData.RemindPasswordListData.Where(x => x.Email == message.Email).Select(x => x.Code).FirstOrDefault();
+                string code = string.IsNullOrEmpty(existingCode) ? Guid.NewGuid().ToString() : existingCode;
                 string body = $"Twoj link aktywacyjny: http://localhost:4100/activateAccount/{person.Email}/{code}";
 
                 var smtp = new SmtpClient
