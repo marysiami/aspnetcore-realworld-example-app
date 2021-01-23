@@ -12,6 +12,7 @@ RUN apk add --no-cache tzdata
 COPY --from=build /build/publish /app
 WORKDIR /app
 
-EXPOSE 5000
+#EXPOSE 5000
 
-ENTRYPOINT ["dotnet", "Conduit.dll"]
+#ENTRYPOINT ["dotnet", "Conduit.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Conduit.dll
