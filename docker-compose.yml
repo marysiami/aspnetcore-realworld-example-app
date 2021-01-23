@@ -1,9 +1,20 @@
 version: '3'
 services:
   conduit:
+    #container_name: server
+    #image: .net
     build: .
     environment:
      - ASPNETCORE_Conduit_DatabaseProvider=${ASPNETCORE_Conduit_DatabaseProvider}
      - ASPNETCORE_Conduit_ConnectionString=${ASPNETCORE_Conduit_ConnectionString}
     ports:
      - "5000:5000"
+  react-app:
+    #container_name: client
+    #image: react
+    build: ./../real-world
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - "4100:4100"
+    
