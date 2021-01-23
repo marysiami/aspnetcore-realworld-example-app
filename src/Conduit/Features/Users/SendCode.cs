@@ -48,7 +48,7 @@ namespace Conduit.Features.Users
                 const string subject = "Potwierdzenie konta";
                 var existingCode = ConfirmAccountData.ConfirmAccountListData.Where(x => x.Email == message.Email).Select(x => x.Code).FirstOrDefault();
                 string code = string.IsNullOrEmpty(existingCode) ? Guid.NewGuid().ToString() : existingCode;
-                string body = $"Twoj link aktywacyjny: http://localhost:4100/activateAccount/{person.Email}/{code}";
+                string body = $"Twoj link aktywacyjny: https://pbwi.herokuapp.com/activateAccount/{person.Email}/{code}";
 
                 var smtp = new SmtpClient
                 {

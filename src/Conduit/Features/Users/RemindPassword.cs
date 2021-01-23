@@ -53,7 +53,7 @@ namespace Conduit.Features.Users
                 const string fromPassword = "!@#qweASDzxc";
                 const string subject = "Zmiana hasła";
                 string code = Guid.NewGuid().ToString();
-                string body = $"Link do zmiany hasła : http://localhost:4100/codeToChangePassword/{message.Email}/{code}";
+                string body = $"Link do zmiany hasła : https://pbwi.herokuapp.com/codeToChangePassword/{message.Email}/{code}";
 
                 var smtp = new SmtpClient
                 {
