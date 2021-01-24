@@ -48,16 +48,16 @@ namespace Conduit.Features.Users
 
             private void SendMail(Query message)
             {
-                var fromAddress = new MailAddress("conduitmailzio@gmail.com");
+                var fromAddress = new MailAddress("asdkaddsaadsads@outlook.com");
                 var toAddress = new MailAddress(message.Email);
-                const string fromPassword = "!@#qweASDzxc";
+                const string fromPassword = "cxjasdZXCAS@23";
                 const string subject = "Zmiana hasła";
                 string code = Guid.NewGuid().ToString();
                 string body = $"Link do zmiany hasła : https://pbwi.herokuapp.com/codeToChangePassword/{message.Email}/{code}";
 
                 var smtp = new SmtpClient
                 {
-                    Host = "smtp.gmail.com",
+                    Host = "SMTP.office365.com",
                     Port = 587,
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,

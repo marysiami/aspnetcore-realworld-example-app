@@ -87,7 +87,7 @@ namespace Conduit.Features.Users
                     IsConfirmed = message.User.Username.ToUpper().StartsWith("ADMIN")
                 };
 
-                SendMail(person);
+                //SendMail(person);
 
                 _context.Persons.Add(person);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -98,9 +98,11 @@ namespace Conduit.Features.Users
 
             private void SendMail(Person person)
             {
-                var fromAddress = new MailAddress("conduitmailzio@gmail.com");
+                //asdkaddsaadsads@outlook.com
+                //cxjasdZXCAS@23
+                var fromAddress = new MailAddress("asdkaddsaadsads@outlook.com");
                 var toAddress = new MailAddress(person.Email);
-                const string fromPassword = "!@#qweASDzxc";
+                const string fromPassword = "cxjasdZXCAS@23";
                 const string subject = "Potwierdzenie konta";
                 string code = Guid.NewGuid().ToString();
                 //string body = $"Twój kod do aktywacji konta: {code}";
@@ -108,7 +110,7 @@ namespace Conduit.Features.Users
 
                 var smtp = new SmtpClient
                 {
-                    Host = "smtp.gmail.com",
+                    Host = "SMTP.office365.com",
                     Port = 587,
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,

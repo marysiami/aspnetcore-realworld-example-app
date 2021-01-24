@@ -42,9 +42,9 @@ namespace Conduit.Features.Users
                     throw new RestException(HttpStatusCode.NotFound, new { Article = Constants.NOT_FOUND });
                 }
 
-                var fromAddress = new MailAddress("conduitmailzio@gmail.com");
+                var fromAddress = new MailAddress("asdkaddsaadsads@outlook.com");
                 var toAddress = new MailAddress(message.Email);
-                const string fromPassword = "!@#qweASDzxc";
+                const string fromPassword = "cxjasdZXCAS@23";
                 const string subject = "Potwierdzenie konta";
                 var existingCode = ConfirmAccountData.ConfirmAccountListData.Where(x => x.Email == message.Email).Select(x => x.Code).FirstOrDefault();
                 string code = string.IsNullOrEmpty(existingCode) ? Guid.NewGuid().ToString() : existingCode;
@@ -52,7 +52,7 @@ namespace Conduit.Features.Users
 
                 var smtp = new SmtpClient
                 {
-                    Host = "smtp.gmail.com",
+                    Host = "SMTP.office365.com",
                     Port = 587,
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
