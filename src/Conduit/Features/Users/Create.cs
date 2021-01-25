@@ -87,7 +87,7 @@ namespace Conduit.Features.Users
                     IsConfirmed = message.User.Username.ToUpper().StartsWith("ADMIN")
                 };
 
-                //SendMail(person);
+                SendMail(person);
 
                 _context.Persons.Add(person);
                 await _context.SaveChangesAsync(cancellationToken);
